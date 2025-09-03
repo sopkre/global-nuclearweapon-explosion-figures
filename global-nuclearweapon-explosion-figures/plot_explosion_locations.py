@@ -187,7 +187,13 @@ def main(infilename, outfilename):
             map_dict
     )
 
-    helpers.save_pkl(fig, outfilename)
+    if outfilename.find(".html") > -1:
+        fig.write_html(outfilename)
+    elif outfilename.find(".pkl") > -1:
+        helpers.save_pkl(fig, outfilename)
+    else: 
+        print("[ERROR] You can save the figure only as .html or .pkl file. ")
+
 
 if __name__ == "__main__":
 
