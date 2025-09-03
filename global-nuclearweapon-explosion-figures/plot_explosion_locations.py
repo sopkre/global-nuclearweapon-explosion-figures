@@ -113,10 +113,9 @@ def draw_scatter(fig, df):
             lon=df_s.LONG, lat=df_s.LAT, 
             below='',
             hovertemplate =
-                '%{text}', text = [f'''
-                    <b>{helpers.FIXEDLABELS_[state]}, N={count} </b> 
-                    <br> Name(s): {name} <br> Yield(s): {kts} kt <br> 
-                    {time}''' for (state, count, name, kts, time) 
+                '%{text}', text = [
+                    f'''<b>{helpers.FIXEDLABELS_[state]}, N={count} </b> <br> Name(s): {name} <br> Yield(s): {kts} kt <br> {time}''' 
+                    for (state, count, name, kts, time) 
                     in zip(df_s.STATE, df_s.COUNT, df_s.SHOTNAME, df_s.YIELD, df_s.YEAR)
                 ],
             name =  helpers.FIXEDLABELS_[s],
