@@ -9,7 +9,6 @@ usage: plot_region_piechart_map.py [-h] -i INFILENAME -o OUTFILENAME -t COORDINA
 import plotly.graph_objects as go
 
 import pandas as pd
-import sys
 import numpy as np
 
 import argparse
