@@ -57,10 +57,15 @@ def make_location_frequency_df(df):
         shotnames = helpers.add_breaks(shotnames, 10)
         dff.loc[dff['coords']==coord, "SHOTNAME"] = shotnames
 
-        # test type 
+        # explosion type 
         assert "[WARNING] MORE EXPLOSTION TYPES AT ONE LOCATION!", len(df_at_coord["TYPE"].unique()) == 1 
         explosion_type = df_at_coord["TYPE"].iloc[0]        
         dff.loc[dff['coords']==coord, "TYPE"] = explosion_type
+
+        # purpose
+        assert "[WARNING] MORE EXPLOSTION PURPOSES AT ONE LOCATION!", len(df_at_coord["PUR"].unique()) == 1 
+        purpose = df_at_coord["PUR"].iloc[0]        
+        dff.loc[dff['coords']==coord, "PUR"] = purpose
 
     print("[INFO] ... Done!")
 
