@@ -23,6 +23,8 @@ def make_location_frequency_df(df):
             Dataframe with list of locations. 
     """
 
+    print("[INFO] Creating explosion location dataframe... ")
+
     df['coords'] = [ t for t in zip(df.LAT, df.LONG) ]
 
     dff = pd.DataFrame(df['coords'].value_counts())
@@ -54,6 +56,13 @@ def make_location_frequency_df(df):
         shotnames = (", ".join(shotnames))
         shotnames = helpers.add_breaks(shotnames, 10)
         dff.loc[dff['coords']==coord, "SHOTNAME"] = shotnames
+
+        # test type 
+        assert "[WARNING] MORE EXPLOSTION TYES AT ONE LOCATION!", len(df_at_coord["TYPE"].unique()) == 1 
+        explosion_type = df_at_coord["TYPE"].iloc[0]        
+        dff.loc[dff['coords']==coord, "TYPE"] = explosion_type
+
+    print("[INFO] ... Done!")
 
     return dff         
 
@@ -114,9 +123,9 @@ def draw_scatter(fig, df):
             below='',
             hovertemplate =
                 '%{text}', text = [
-                    f'''<b>{helpers.FIXEDLABELS_[state]}, N={count} </b> <br> Name(s): {name} <br> Yield(s): {kts} kt <br> {time}''' 
-                    for (state, count, name, kts, time) 
-                    in zip(df_s.STATE, df_s.COUNT, df_s.SHOTNAME, df_s.YIELD, df_s.YEAR)
+                    f'''<b>{helpers.FIXEDLABELS_[state]}, N={count} </b> <br> Name(s): {name} <br> Yield(s): {kts} kt <br> Type(s): {expl_type} <br> {time} ''' 
+                    for (state, count, name, kts, time, expl_type) 
+                    in zip(df_s.STATE, df_s.COUNT, df_s.SHOTNAME, df_s.YIELD, df_s.YEAR, df_s.TYPE)
                 ],
             name =  helpers.FIXEDLABELS_[s],
             marker = {'size' : 10, "color" : helpers.COLORS_[s]}, 
