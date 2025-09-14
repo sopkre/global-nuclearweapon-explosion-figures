@@ -121,8 +121,8 @@ def draw_scatter(fig, df):
             Dataframe with frequency list of locations
     """
 
-    for i, s in enumerate(np.unique(df.STATE)): 
-        df_s = df[df.STATE == s]
+    for i, s in enumerate(np.unique(df["STATE"])): 
+        df_s = df[df["STATE"] == s]
         scatter = go.Scattermap(
             lon=df_s.LONG, lat=df_s.LAT, 
             below='',
