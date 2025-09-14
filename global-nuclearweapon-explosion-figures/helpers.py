@@ -72,7 +72,7 @@ def make_range_string(ll):
     """
     import numpy as np
     contains_nA = np.isnan(ll).any()
-    ll = np.unique([l for l in ll if not np.isnan(l)])
+    ll = np.unique([x for x in ll if not np.isnan(x)])
 
     s = ""
     if len(ll) == 0:
