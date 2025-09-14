@@ -188,10 +188,10 @@ def add_pie_legend(fig, mode, visible, f):
     values = []
     radii = []
 
-    if mode == "number":
+    if mode.find("number") > -1:
         values = [50, 200, 300]
         text = values
-    elif mode == "yield":
+    elif mode.find("yield") > -1:
         values = [10, 50, 100]
         text = [f"{int(t)}Mt" for t in values]
 
@@ -272,14 +272,16 @@ def plot_explosion_pies(fig, df, mode = "yield", visible=True):
         hovertemplate = ''
         for s in df_r.STATE.unique():
             states += [s]
-            if mode=="yield":
+            if mode.find("yield") > -1:
                 values += [df_r[df_r.STATE==s]["YIELD"].sum()/1000] #mt
                 f_radius = 0.00026*1000**(1/2)
                 hovertemplate = '%{label}: <br> %{value:.3f} Mt'
-            elif mode =="number":
+            elif mode.find("number") > -1:
                 values += [len(df_r[df_r.STATE == s])]
                 f_radius = 0.004
                 hovertemplate = '%{label}: <br> N = %{value}'
+            else: 
+                print("[WARNING] You need to specify the mode! (either 'yield' or 'number')!")
 
         R = np.sum(values)**(1/2)*f_radius
 
@@ -358,26 +360,29 @@ def update_layout(fig):
     )
 
 
-def add_buttons(fig):
+def add_buttons(fig, mode_label_dict):
     """Add the buttons to switch between "number" and "yield" plot. 
     ---------
         fig : go.Figure
             figure to add legend to
+        mode_label_dict : dict
+            keys: mode to add (e.g. "yield"), values: title for respecive button
     """
     region_traces = [isinstance(f, go.Choropleth) for f in fig.data ]
-    yieldpie_traces = [f.meta=="yield" for f in fig.data ]
-    numberpie_traces = [f.meta=="number" for f in fig.data ]
+    
+    traces = []
+    modes = []
+    for mode in mode_label_dict:
+        traces += [ [f.meta==mode for f in fig.data] ]
+        modes += [mode]
+        print(f"[INFO] Added {mode} to legend!")
 
-    buttons = list([
-        dict(label="Explosion number",
+    buttons = []
+    for i, t in enumerate(traces):
+        buttons += [dict(label=mode_label_dict[modes[i]],
             method="update",
-            args=[{"visible": [ x | y for (x,y) in zip(region_traces, numberpie_traces) ] },
-                ]),
-        dict(label="Yield",
-            method="update",
-            args=[{"visible": [ x | y for (x,y) in zip(region_traces, yieldpie_traces) ]},
-                ])
-    ])
+            args=[{"visible": [ x | y for (x,y) in zip(region_traces, t)]}] 
+            )]
 
     menu_dict = {'updatemenus' : [
         dict(
@@ -435,9 +440,18 @@ def main(infilename, outfilename, country_region_json, coords_region_lookup_pkl)
 
     plot_regions(fig, df, country_region_json)
     plot_explosion_pies(fig, df, "number")
+    # plot_explosion_pies(fig, df[df.TYPE.str.contains("A")], "yield_A", visible=False)
+    # plot_explosion_pies(fig, df[df.TYPE.str.contains("UG") | df.TYPE.str.contains("UW") ], "yield_UG", visible=False)
     plot_explosion_pies(fig, df, "yield", visible=False)
 
-    add_buttons(fig)
+    add_buttons(fig, 
+        {"number": "Exlosion number", 
+        "yield": "Explosion yield", 
+        # "yield_A" : "Yield atmospheric", 
+        # "yield_UG" : "Yield underground/-water"
+        }
+    )
+
     update_layout(fig)
 
     # Save output
