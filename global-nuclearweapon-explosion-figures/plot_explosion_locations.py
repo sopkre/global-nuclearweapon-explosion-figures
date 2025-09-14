@@ -58,7 +58,7 @@ def make_location_frequency_df(df):
         dff.loc[dff['coords']==coord, "SHOTNAME"] = shotnames
 
         # test type 
-        assert "[WARNING] MORE EXPLOSTION TYES AT ONE LOCATION!", len(df_at_coord["TYPE"].unique()) == 1 
+        assert "[WARNING] MORE EXPLOSTION TYPES AT ONE LOCATION!", len(df_at_coord["TYPE"].unique()) == 1 
         explosion_type = df_at_coord["TYPE"].iloc[0]        
         dff.loc[dff['coords']==coord, "TYPE"] = explosion_type
 
