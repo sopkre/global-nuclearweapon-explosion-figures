@@ -60,7 +60,7 @@ def plot_regions(fig, df, jsonfile):
             json file to create list of states that belong to region
     """
     import plotly.express as px
-    colors = px.colors.qualitative.Set3[::-1]
+    colors = px.colors.qualitative.Pastel2
     for i, region in enumerate([x for x in pd.unique(df["REGION"]) if x.find("Ocean")==-1]):
         plot_region(fig, region, jsonfile, color = colors[i], bordercolor="gray")
 
