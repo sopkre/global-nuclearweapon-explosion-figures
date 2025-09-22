@@ -97,9 +97,9 @@ def draw_density(fig, df):
     leg_dict = {
             'legend2' : {
             'yanchor' : "top",
-            'y' : 0.13,
+            'y' : 0.21,
             'xanchor' : "left",
-            'x' : 0.865,
+            'x' : 0.01,
             'font' : {'size' : 15},
             'orientation' : 'h',
             'bgcolor' : '#f9f9f9'
