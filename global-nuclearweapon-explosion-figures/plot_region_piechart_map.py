@@ -3,7 +3,7 @@
 """
 Snippet to plot pie charts of explosion numbers and integrated yield in different world regions.
 
-usage: plot_region_piechart_map.py [-h] -i INFILENAME -o OUTFILENAME -t COORDINATELOOKUPTABLE -j COUNTRYREGIONJSON
+usage: plot_region_piechart_map.py [-h] -i INFILENAME -o OUTFILENAME -j COUNTRYREGIONJSON
 """
 
 import plotly.graph_objects as go
@@ -61,8 +61,7 @@ def plot_regions(fig, df, jsonfile):
     """
     import plotly.express as px
     colors = px.colors.qualitative.Set3[::-1]
-    
-    for i, region in enumerate(pd.unique(df["REGION"])):
+    for i, region in enumerate([x for x in pd.unique(df["REGION"]) if x.find("Ocean")==-1]):
         plot_region(fig, region, jsonfile, color = colors[i], bordercolor="gray")
     
 
@@ -83,93 +82,24 @@ def plot_region(fig, region, jsonfile, color="lightblue", bordercolor="black"):
     """
     region_dict = get_region_dict(jsonfile, key="region")
 
-    fig.add_trace(go.Choropleth(
-            locationmode = 'country names',
-            locations = region_dict[region],
-            z = [1 for _ in region_dict[region]],
-            colorscale = [[0,color],[0.5, color], [1,color]],
-            showscale = False,
-            name = region,
-            geo = 'geo1',
-            marker={"line":{"width":1, "color":bordercolor}},
-            legend = "legend3",
-            visible = True,
-            hovertemplate = '%{location}',
+    try: 
+        fig.add_trace(go.Choropleth(
+                locationmode = 'country names',
+                locations = region_dict[region],
+                z = [1 for _ in region_dict[region]],
+                colorscale = [[0,color],[0.5, color], [1,color]],
+                showscale = False,
+                name = region,
+                geo = 'geo1',
+                marker={"line":{"width":1, "color":bordercolor}},
+                legend = "legend3",
+                visible = True,
+                hovertemplate = '%{location}',
+            )
         )
-    )
+    except KeyError:
+        print(f"[WARNING] Skipping {region}. ")
 
-
-def make_coords_region_lookup(df, outfilename=None):
-    """Makes lookup table for coordinates to locations/regions using geopy.
-    ---------
-        df : pd.DataFrame
-            df to take cordinates from ("LAT", and "LONG")
-        outfilename: str
-            optionally save pickled lookup dict there
-    """
-    import geopy as gp
-    from geopy.extra.rate_limiter import RateLimiter
-    import reverse_geocoder as rg
-
-    coords = list(set([t for t in zip(df.LAT, df.LONG)]))
-
-    coord_dict = {}
-    none_coords = []
-
-    # geopy for locations
-    geolocator = gp.Nominatim(user_agent="myapp")
-    reverse = RateLimiter(geolocator.reverse, min_delay_seconds=1)
-    for i, coord in enumerate(coords):
-        if (i%10==0):
-            print(f"Progress: {i}/{len(coords)}")
-        geolocs = reverse(coord)
-        if geolocs is not None and "country_code" in geolocs.raw["address"]:
-            coord_dict[coord] = geolocs.raw
-            coord_dict[coord]["cc"] = coord_dict[coord]["address"]["country_code"]
-        else:
-            coord_dict[coord] = None
-            none_coords += [coord]
-            print(f"[WARNING] No location for {coord}.")
-    
-    # reverse_geocoder for missing locations
-    if len(none_coords) > 0:
-        geolocs = rg.search(tuple(none_coords))
-
-        for i, none_coord in enumerate(none_coords): 
-            coord_dict[none_coord] = geolocs[i]
-            print(f"[WARNING] Location for {none_coord} from reverse_geocorder: {geolocs[i]["cc"]}")
-        
-    if outfilename is not None:
-        helpers.save_pkl(coord_dict, outfilename)
-        print("[INFO] Saved file at outfilename.")
-
-    return coord_dict
-
-
-def add_regions_to_df(df, jsonfile, pkl_file):
-    """Adds region names to dataframe df based on location coordinates. 
-    ---------
-        df : pd.DataFrame
-            df to append regions to based on cordinates ("LAT", and "LONG")
-        jsonfile: str
-            file to map country codes from coordinates to regions
-        pkl:file: str
-            file with lookup table coordinates -> states (via country codes)
-    """
-    assert len(df[df['LAT'].isna()])+len(df[df['LONG'].isna()])==0, "[ERROR] Null locations in data frame!"
-
-    geoloc_dict = helpers.load_pkl(pkl_file)
-
-    df['coords'] = [ t for t in zip(df.LAT, df.LONG) ]
-    coords = list(df['coords'])
-
-    geolocs = [geoloc_dict[coord] for coord in coords] 
-
-    region_cc_dict = get_region_dict(jsonfile, key="cc")
-    regions = [region_cc_dict[g["cc"].upper()] for g in geolocs]
-
-    df['REGION'] = np.array(regions)
-    return df
 
 
 def add_pie_legend(fig, mode, visible, f):
@@ -250,12 +180,17 @@ def plot_explosion_pies(fig, df, mode = "yield", visible=True):
         'Northern America' : (0.13, 0.72),  
         'Central Asia' : (0.59, 0.71), 
         'Northern Africa' : (0.44, 0.64),  
-        'Micronesia' : (0.9, 0.55),      
+        'Micronesia' : (0.85, 0.57),      
         'Eastern Europe' : (0.5, 0.76),
         'Eastern Asia' : (0.7, 0.65),  
-        'Southern Asia' : (0.6, 0.63),  
+        'Southern Asia' : (0.625, 0.59),  
         'Sub-Saharan Africa' : (0.45, 0.45),  
-        'Australia and New Zealand' : (0.79, 0.38)}
+        'Australia and New Zealand' : (0.79, 0.38), 
+        'South Atlantic Ocean' : (0.35, 0.38),
+        'Arctic Ocean' : (0.5, 0.85),
+        'North Pacific Ocean' : (0.94, 0.65),
+        'Indian Ocean' : (0.6, 0.44)
+        }
     fig.update_geos(projection=dict(type="equirectangular"))
 
     regions = df["REGION"].unique()
@@ -403,7 +338,7 @@ def add_buttons(fig, mode_label_dict):
     )
 
 
-def main(infilename, outfilename, country_region_json, coords_region_lookup_pkl):
+def main(infilename, outfilename, country_region_json):
     """Main. 
     Parameters
     ---------
@@ -413,15 +348,8 @@ def main(infilename, outfilename, country_region_json, coords_region_lookup_pkl)
             filename for pickled go.Figure
     """
     
-    # Prepare dataframe and (if needed) get coordinate-region lookup table
-    # --------------------------------------------------------------------
-
     df = helpers.load_pkl(infilename)
     df = df.drop(df[df.LAT.isnull()].index)
-
-    if not os.path.isfile(coords_region_lookup_pkl):
-        input(f"[WARNING] Coordinates to region lookup table does not exist. Will create it and save it as '{coords_region_lookup_pkl}' which will take ~30 minutes. Press enter to continue...")
-        make_coords_region_lookup(df, coords_region_lookup_pkl)
 
     if not os.path.isfile(country_region_json):
         input(f"[WARNING] Json that connects states to regions does not exist. Will download it and save it as '{country_region_json}'. Press enter to continue...")
@@ -430,8 +358,6 @@ def main(infilename, outfilename, country_region_json, coords_region_lookup_pkl)
             "https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/refs/heads/master/all/all.json", 
             country_region_json
         )
-
-    df = add_regions_to_df(df, jsonfile=country_region_json,  pkl_file=coords_region_lookup_pkl)
 
     # Plotting
     # --------
@@ -473,9 +399,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--infilename", help="input data in pandas dataframe", required=True)
     parser.add_argument("-o", "--outfilename", help="output file, either html or pkl format.", required=True)
-    parser.add_argument("-t", "--coordinatelookuptable", help="lookup table to get state from coordinates. If file does not exist, it is generated.", required=True)
     parser.add_argument("-j", "--countryregionjson", help="json that maps states to region. If file does not exist, it is downloaded there.", required=True)
     args = parser.parse_args()
 
-    main(args.infilename, args.outfilename, args.countryregionjson, args.coordinatelookuptable)
+    main(args.infilename, args.outfilename, args.countryregionjson)
 
