@@ -120,3 +120,14 @@ def save_pkl(something, outfilename):
     pickle.dump(something, output)
     output.close()
 
+def sort_list_by_score(ll, score):
+    """Sorts list ll according to sorting of score list (i.e. ["x","c","d"] and [2,1,3] -> ["c","x","d"])
+    ---------
+        ll : list 
+            list where order is changed according to sorted score
+        score : list
+            score list to sort list 
+    """
+    # Sort lists
+    score, ll = zip(*sorted(zip(score, ll)))
+    return ll[::-1]

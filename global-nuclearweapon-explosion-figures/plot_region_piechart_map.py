@@ -63,7 +63,7 @@ def plot_regions(fig, df, jsonfile):
     colors = px.colors.qualitative.Set3[::-1]
     for i, region in enumerate([x for x in pd.unique(df["REGION"]) if x.find("Ocean")==-1]):
         plot_region(fig, region, jsonfile, color = colors[i], bordercolor="gray")
-    
+
 
 def plot_region(fig, region, jsonfile, color="lightblue", bordercolor="black"):
     """Highlight (outline, fill color) states belonging to a region. 
@@ -149,19 +149,6 @@ def add_pie_legend(fig, mode, visible, f):
     return fig
 
 
-def sort_list_by_score(ll, score):
-    """Sorts list ll according to sorting of score list (i.e. ["x","c","d"] and [2,1,3] -> ["c","x","d"])
-    ---------
-        ll : list 
-            list where order is changed according to sorted score
-        score : list
-            score list to sort list 
-    """
-    # Sort lists
-    score, ll = zip(*sorted(zip(score, ll)))
-    return ll[::-1]
-
-
 def plot_explosion_pies(fig, df, mode = "yield", visible=True):
     """Plots the pie chart for the chosen mode. Hacks go.Pie into map (position is given by figure fractions, size indicates total values)
     ---------
@@ -196,7 +183,7 @@ def plot_explosion_pies(fig, df, mode = "yield", visible=True):
     regions = df["REGION"].unique()
     # Sort list of regions by value to avoid the smaller pies hidden by the larger ones.
     N = [ len(df[(df.REGION==r)]) for (r) in regions ]
-    regions = sort_list_by_score(regions, N)
+    regions = helpers.sort_list_by_score(regions, N)
 
     for i, region in enumerate(regions):
         df_r = df[df.REGION == region]
