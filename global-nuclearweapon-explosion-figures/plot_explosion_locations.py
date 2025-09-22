@@ -111,7 +111,7 @@ def draw_density(fig, df):
     )
 
 
-def draw_scatter(fig, df): 
+def draw_scatter(fig, df, mode="STATE", visible=True): 
     """Draw test density at location
     Parameters
     ---------
@@ -120,23 +120,31 @@ def draw_scatter(fig, df):
         df : pd.Dataframe
             Dataframe with frequency list of locations
     """
-
-    for i, s in enumerate(np.unique(df["STATE"])): 
-        df_s = df[df["STATE"] == s]
+    for i, s in enumerate(df[mode].unique()): 
+        df_s = df[df[mode] == s]
         scatter = go.Scattermap(
             lon=df_s.LONG, lat=df_s.LAT, 
             below='',
             hovertemplate =
                 '%{text}', text = [
-                    f'''<b>{helpers.FIXEDLABELS_[state]}, N={count} </b> <br> Name(s): {name} <br> Yield(s): {kts} kt <br> Type(s): {expl_type} <br> {time} ''' 
-                    for (state, count, name, kts, time, expl_type) 
-                    in zip(df_s.STATE, df_s.COUNT, df_s.SHOTNAME, df_s.YIELD, df_s.YEAR, df_s.TYPE)
+                    f'''<b>{helpers.FIXEDLABELS_[state]}, N={count} </b> <br> Name(s): {name} <br> Yield(s): {kts} kt <br> Type(s): {expl_type} <br> Purpose(s): {purpose} <br> {time} ''' 
+                    for (state, count, name, kts, time, expl_type, purpose) 
+                    in zip(df_s.STATE, df_s.COUNT, df_s.SHOTNAME, df_s.YIELD, df_s.YEAR, df_s.TYPE, df_s.PUR)
                 ],
-            name =  helpers.FIXEDLABELS_[s],
-            marker = {'size' : 10, "color" : helpers.COLORS_[s]}, 
+            name =  s,
+            marker = {'size' : 10},
             legend='legend1', 
+            meta=mode, 
+            visible=visible
             )
+
         fig.add_trace(scatter)
+
+        if mode=="STATE":
+            fig.update_traces(
+                marker = {'size' : 10, "color" : helpers.COLORS_[s]}, 
+                name = helpers.FIXEDLABELS_[s],
+                selector={'name': s}) 
 
     leg_dict = {
             'legend1' : {
