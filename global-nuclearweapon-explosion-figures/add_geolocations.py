@@ -20,7 +20,7 @@ def get_cc_from_coordinates(coordlist, ocean_gpkg):
             dataframe containing oceans (names and geometries, i.e. polygons)
     Returns
     ---------
-        locations : list of str 
+        ccs : list of str 
             country codes (or ocean names with prefix "O_")    
     """
     import geopy as gpy
@@ -28,7 +28,7 @@ def get_cc_from_coordinates(coordlist, ocean_gpkg):
     from geopy.extra.rate_limiter import RateLimiter
     from shapely.geometry import Point
 
-    locations = []
+    ccs = []
 
     # geopy for locations
     geolocator = gpy.Nominatim(user_agent="myapp")
@@ -43,7 +43,7 @@ def get_cc_from_coordinates(coordlist, ocean_gpkg):
         geolocs = reverse(coord)
 
         if geolocs is not None and "country_code" in geolocs.raw["address"]:
-            locations += [ geolocs.raw["address"]["country_code"] ]
+            ccs += [ geolocs.raw["address"]["country_code"] ]
             continue
         
         p = Point(coord[1], coord[0])
@@ -51,17 +51,17 @@ def get_cc_from_coordinates(coordlist, ocean_gpkg):
                 
         if len(seas) == 0: 
             print(f"[WARNING] No location for {coord}.")
-            locations += [None]
+            ccs += [None]
         elif len(seas) == 1:
-            locations += [f"O_{seas["name"].iloc[0]}"]
+            ccs += [f"O_{seas["name"].iloc[0]}"]
         else: 
             print("[ERROR] Found more than one matching ocean!")
             print(f"{seas["name"]}")
-            locations += [None]
+            ccs += [None]
     
     print('\r>> Processing... (100%)')
 
-    return locations    
+    return ccs    
 
 
 def get_regions_from_cc(cclist, jsonfile):
