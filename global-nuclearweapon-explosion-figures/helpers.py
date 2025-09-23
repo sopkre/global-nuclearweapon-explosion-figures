@@ -131,3 +131,25 @@ def sort_list_by_score(ll, score):
     # Sort lists
     score, ll = zip(*sorted(zip(score, ll)))
     return ll[::-1]
+
+def get_part_before_hyphen(s):
+    """Deletes characters after (and including) hyphen
+    ---------
+        s : string 
+            string to modify
+    """
+    if type(s) is str and s.find("-") > -1:
+        s = s[:s.find("-")]
+    return s
+
+def get_part_after_hyphen(s):
+    """Deletes characters after (and including) hyphen
+    ---------
+        s : string 
+            string to modify
+    """
+    if type(s) is str and s.find("-") > -1:
+        s = s[s.find("-")+1:]
+    else: 
+        s = None
+    return s
