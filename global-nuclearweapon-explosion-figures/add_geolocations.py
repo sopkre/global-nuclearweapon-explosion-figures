@@ -22,6 +22,8 @@ def get_cc_from_coordinates(coordlist, ocean_gpkg):
     ---------
         ccs : list of str 
             country codes (or ocean names with prefix "O_")    
+        full_locations : list of dict
+            full locations from Nominatim (or None, if ocean)
     """
     import geopy as gpy
     import geopandas as gp
@@ -29,6 +31,7 @@ def get_cc_from_coordinates(coordlist, ocean_gpkg):
     from shapely.geometry import Point
 
     ccs = []
+    full_locations = []
 
     # geopy for locations
     geolocator = gpy.Nominatim(user_agent="myapp")
@@ -44,11 +47,14 @@ def get_cc_from_coordinates(coordlist, ocean_gpkg):
 
         if geolocs is not None and "country_code" in geolocs.raw["address"]:
             ccs += [ geolocs.raw["address"]["country_code"] ]
+            full_locations += [ geolocs.raw ]
             continue
         
+        full_locations += [None]
+
         p = Point(coord[1], coord[0])
         seas = seas_gdf[seas_gdf["geometry"].contains(p)]
-                
+
         if len(seas) == 0: 
             print(f"[WARNING] No location for {coord}.")
             ccs += [None]
@@ -61,7 +67,7 @@ def get_cc_from_coordinates(coordlist, ocean_gpkg):
     
     print('\r>> Processing... (100%)')
 
-    return ccs    
+    return (ccs, full_locations)    
 
 
 def get_regions_from_cc(cclist, jsonfile):
@@ -136,7 +142,7 @@ def main(infilename, outfilename, country_region_json, oceansgeometries):
     df = df.drop(df[df.LAT.isnull()].index)
 
     df['coords'] = [ t for t in zip(df.LAT, df.LONG) ]
-    df['CC'] = get_cc_from_coordinates(df.coords, ocean_gpkg=oceansgeometries)
+    (df['CC'], df['FULL_LOC']) = get_cc_from_coordinates(df.coords, ocean_gpkg=oceansgeometries)
     df['REGION'] = get_regions_from_cc(df['CC'], country_region_json)
 
     helpers.save_pkl(df, outfilename)
