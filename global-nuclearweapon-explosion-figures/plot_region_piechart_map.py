@@ -337,6 +337,7 @@ def main(infilename, outfilename, country_region_json):
     
     df = helpers.load_pkl(infilename)
     df = df.drop(df[df.LAT.isnull()].index)
+    df["TYPE_CAT"] = df["TYPE"].apply(lambda x: helpers.get_part_before_hyphen(x))
 
     if not os.path.isfile(country_region_json):
         input(f"[WARNING] Json that connects states to regions does not exist. Will download it and save it as '{country_region_json}'. Press enter to continue...")
@@ -353,14 +354,14 @@ def main(infilename, outfilename, country_region_json):
 
     plot_regions(fig, df, country_region_json)
     plot_explosion_pies(fig, df, "number")
-    # plot_explosion_pies(fig, df[df.TYPE.str.contains("A")], "yield_A", visible=False)
+    plot_explosion_pies(fig, df[df.TYPE_CAT.str.contains("A")], "yield_A", visible=False)
     # plot_explosion_pies(fig, df[df.TYPE.str.contains("UG") | df.TYPE.str.contains("UW") ], "yield_UG", visible=False)
     plot_explosion_pies(fig, df, "yield", visible=False)
 
     add_buttons(fig, 
         {"number": "Exlosion number", 
         "yield": "Explosion yield", 
-        # "yield_A" : "Yield atmospheric", 
+        "yield_A" : "Yield (atmospheric)", 
         # "yield_UG" : "Yield underground/-water"
         }
     )
