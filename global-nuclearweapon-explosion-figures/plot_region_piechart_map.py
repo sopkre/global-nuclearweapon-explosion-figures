@@ -122,7 +122,7 @@ def add_pie_legend(fig, mode, visible, f):
         text = values
     elif mode.find("yield") > -1:
         values = [10, 50, 100]
-        text = [f"{int(t)}Mt" for t in values]
+        text = [f"{int(t)}MT" for t in values]
 
     radii = [v**(1/2)*f for v in values]
 
@@ -196,7 +196,7 @@ def plot_explosion_pies(fig, df, mode = "yield", visible=True):
             if mode.find("yield") > -1:
                 values += [df_r[df_r.STATE==s]["YIELD"].sum()/1000] #mt
                 f_radius = 0.00026*1000**(1/2)
-                hovertemplate = '%{label}: <br> %{value:.3f} Mt'
+                hovertemplate = '%{label}: <br> %{value:.3f} MT'
             elif mode.find("number") > -1:
                 values += [len(df_r[df_r.STATE == s])]
                 f_radius = 0.004
@@ -219,7 +219,7 @@ def plot_explosion_pies(fig, df, mode = "yield", visible=True):
             hovertemplate = hovertemplate, 
             textfont_size=15,
             textfont_color="black",
-            textinfo='text',
+            textinfo='none',
             domain_x = (x-R, x+R), 
             domain_y = (y-R, y+R),
             name = region,
@@ -358,9 +358,9 @@ def main(infilename, outfilename, country_region_json):
     plot_explosion_pies(fig, df, "yield", visible=False)
 
     add_buttons(fig, 
-        {"number": "Exlosion number", 
-        "yield": "Explosion yield", 
-        "yield_A" : "Yield (atmospheric)", 
+        {"number": "Number of explosions", 
+        "yield": "Cummulative yield", 
+        "yield_A" : "Cummulative yield (only atmospheric)", 
         # "yield_UG" : "Yield underground/-water"
         }
     )
