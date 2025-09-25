@@ -99,7 +99,7 @@ def main(infilename, outfilename):
 
     df["TYPE_SHORT"] = df["TYPE"].apply(lambda x: helpers.get_explosion_type(x))
     df["PUR_SHORT"] = df["PUR"].apply(lambda x: helpers.get_explosion_purpose(x))
-    df["YIELD_CAT"] = df["YIELD"].apply(lambda x: helpers.get_yield_range_str(x))
+    df["YIELD_CAT"] = df["YIELD"].apply(lambda x: helpers.get_yield_range_str(x, bins=YIELD_BINS_))
 
     ### Make figure
     ### -----------
