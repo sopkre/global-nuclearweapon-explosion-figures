@@ -24,15 +24,16 @@ def plot_HOB(fig, df):
     
     for i, s in enumerate(np.unique(df.STATE)[::-1]): 
         df_s = df[df.STATE == s]
+        df_s = df_s[df_s.DATETIME.notna()]
 
-        scatter = go.Scatter(x=df_s.YEAR, y=df_s.HOB, 
+        scatter = go.Scatter(x=df_s.DATETIME, y=df_s.HOB, 
         name = helpers.FIXEDLABELS_[s], 
         mode = "markers",
         hovertemplate =
                 '%{text}', text = [
-                    f'''<b>{helpers.FIXEDLABELS_[state]}, </b> <br> Name(s): {name} <br> Height: {hob}m <br> {time}''' 
+                    f'''<b>{helpers.FIXEDLABELS_[state]}, </b> <br> Name(s): {name} <br> Height: {hob}m <br> {time:%Y-%m-%d %H:%M}''' 
                     for (state, name, hob, time) 
-                    in zip(df_s.STATE, df_s.SHOTNAME, df_s.HOB, df_s.YEAR)
+                    in zip(df_s.STATE, df_s.SHOTNAME, df_s.HOB, df_s.DATETIME)
                 ],
         legend='legend1', 
         marker = {"color" : helpers.COLORS_[s]}, 
