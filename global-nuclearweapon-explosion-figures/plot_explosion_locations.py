@@ -52,20 +52,25 @@ def make_location_frequency_df(df):
         dff.loc[dff['coords']==coord, "YEAR"] = helpers.make_range_string(years_at_coord)
 
         # set list of names at location
-        shotnames = [ x if x is not None else "n/A" for x in df_at_coord["SHOTNAME"].to_list()]
+        shotnames = [ x if x is not None else "n/a" for x in df_at_coord["SHOTNAME"].to_list()]
         shotnames = (", ".join(shotnames))
         shotnames = helpers.add_breaks(shotnames, 10)
         dff.loc[dff['coords']==coord, "SHOTNAME"] = shotnames
 
-        # explosion type 
+        # explosion type and delivery
         assert "[WARNING] MORE EXPLOSTION TYPES AT ONE LOCATION!", len(df_at_coord["TYPE"].unique()) == 1 
         explosion_type = df_at_coord["TYPE"].iloc[0]        
-        dff.loc[dff['coords']==coord, "TYPE"] = explosion_type
+        dff.loc[dff['coords']==coord, "TYPE"] = helpers.TYPESLABEL_[helpers.get_part_before_hyphen(explosion_type)]
+        dff.loc[dff['coords']==coord, "DELIVERY"] = helpers.DELIVERYLABEL_[helpers.get_part_after_hyphen(explosion_type)]
 
         # purpose
         assert "[WARNING] MORE EXPLOSTION PURPOSES AT ONE LOCATION!", len(df_at_coord["PUR"].unique()) == 1 
-        purpose = df_at_coord["PUR"].iloc[0]        
-        dff.loc[dff['coords']==coord, "PUR"] = purpose
+        p = df_at_coord["PUR"].iloc[0]
+        if (type(p) is float and np.isnan(p)):
+            p = "n/a"
+        else:
+            p = helpers.PURPOSELABEL_[df_at_coord["PUR"].iloc[0]]
+        dff.loc[dff['coords']==coord, "PUR"] = p
 
     print("[INFO] ... Done!")
 
@@ -127,9 +132,9 @@ def draw_scatter(fig, df, mode="STATE", visible=True):
             below='',
             hovertemplate =
                 '%{text}', text = [
-                    f'''<b>{helpers.FIXEDLABELS_[state]}, N={count} </b> <br> Name(s): {name} <br> Yield(s): {kts} kt <br> Type(s): {expl_type} <br> Purpose(s): {purpose} <br> {time} ''' 
-                    for (state, count, name, kts, time, expl_type, purpose) 
-                    in zip(df_s.STATE, df_s.COUNT, df_s.SHOTNAME, df_s.YIELD, df_s.YEAR, df_s.TYPE, df_s.PUR)
+                    f'''<b>{helpers.FIXEDLABELS_[state]}, N={count} </b> <br> Name(s): {name} <br> Yield(s): {kts} kt <br> Type(s): {expl_type} <br> Delivery: {expl_delivery} <br> Purpose(s): {purpose} <br> {time} ''' 
+                    for (state, count, name, kts, time, expl_type, expl_delivery, purpose) 
+                    in zip(df_s.STATE, df_s.COUNT, df_s.SHOTNAME, df_s.YIELD, df_s.YEAR, df_s.TYPE, df_s.DELIVERY, df_s.PUR)
                 ],
             name =  s,
             marker = {'size' : 10},

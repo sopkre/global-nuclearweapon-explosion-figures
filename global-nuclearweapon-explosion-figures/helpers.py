@@ -56,6 +56,7 @@ TYPECOLORS_ = {
 
 PURPOSELABEL_ = {
 "WR" : "weapons related",
+"WR?" : "weapons related",
 "FS" : "fundamental science",
 "I" : "industrial applications",
     "I-CV" : "cavity excavation",
@@ -71,8 +72,8 @@ PURPOSELABEL_ = {
 "VU" : "Vela uniform",
 "WE" : "weapons effects",
 "C" : "combat use, strategic warfare", 
-None : "NONE", 
-"WR/P" : "WR/P"
+"WR/PR" : "weapons/peaceful research related",
+None : "n/a"
 } 
 
 TYPESLABEL_ = {
@@ -86,7 +87,7 @@ TYPESLABEL_ = {
     "CR": "cratering burst", #"cratering burst (shallow subsurface)"
 }
 
-DELIVERY_= {
+DELIVERYLABEL_= {
         "AD": "airdrop",
         "B": "balloon",
         "R": "rocket or missile",
@@ -94,10 +95,13 @@ DELIVERY_= {
         "BG": "barge",
         "AS": "anti-submarine weapon or torpedo",
         "T": "tower/tunnel",
+        "T?": "tower/tunnel",
         "S":  "shaft",
+        "S?" : "shaft",
         "TC":  "cavity in tunnel",
         "CS": "cavity, shaft",
-        "M": "mine"
+        "M": "mine",
+        None: "n/a"
 }
 
 def add_breaks(s, f=2):
