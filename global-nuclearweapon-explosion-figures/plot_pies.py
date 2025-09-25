@@ -14,52 +14,6 @@ from plotly.subplots import make_subplots
 
 import helpers
 
-PURPOSELABEL_ = {
-"WR" : "weapons related",
-"FS" : "fundamental science",
-"I" : "industrial applications",
-    "I-CV" : "cavity excavation",
-    "I-EM" : "earth-moving",
-    "I-FE" : "extinguishing of oil/gas well fire",
-    "I-OS" : "oil stimulation",
-    "I-SS" : "seismic sounding",
-"JV" : "joint verification",
-"ME" : "military exercise",
-"PR" : "research for peaceful applications",
-"SE" : "safety experiment",
-"ST" : "storage/transportation experiment",
-"VU" : "Vela uniform",
-"WE" : "weapons effects",
-"C" : "combat use, strategic warfare", 
-None : "NONE", 
-"WR/P" : "WR/P"
-} 
-
-TYPES_ = {
-    "A": "atmospheric",
-    "AH": "high altitude", #"atmospheric (altitude 30-80 km)",
-    "AW": "water surface", # "atmospheric, water surface",
-    "AS": "surface", #"atmospheric, surface",
-    "AX": "space", #(altitude > 80 km)",
-    "UG": "underground", 
-    "UW": "underwater",
-    "CR": "cratering burst", #"cratering burst (shallow subsurface)"
-}
-
-DELIVERY_= {
-        "AD": "airdrop",
-        "B": "balloon",
-        "R": "rocket or missile",
-        "CM": "cruise missile",
-        "BG": "barge",
-        "AS": "anti-submarine weapon or torpedo",
-        "T": "tower/tunnel",
-        "S":  "shaft",
-        "TC":  "cavity in tunnel",
-        "CS": "cavity, shaft",
-        "M": "mine"
-}
-
 YIELD_BINS_ = [0.01, 1, 10, 50, 100, 1000, 10000]
 
 def get_explosion_type(typestr): 
@@ -187,13 +141,13 @@ def make_pie(df, slice="STATE"):
         colors = [helpers.COLORS_[x] for x in labels]
         labels = [helpers.FIXEDLABELS_[x] for x in labels]
     elif slice=="PUR_SHORT": 
-        labels = [PURPOSELABEL_[x] if x not in ["other", "n/a"] else x for x in labels ]
+        labels = [helpers.PURPOSELABEL_[x] if x not in ["other", "n/a"] else x for x in labels ]
         colors = px.colors.qualitative.Antique
     elif slice=="REGION": 
         colors = [helpers.REGIONCOLORS_[x] for x in labels]
     elif slice=="TYPE_SHORT": 
         colors = [helpers.TYPECOLORS_[x] for x in labels] 
-        labels = [TYPES_[x] for x in labels]
+        labels = [helpers.TYPESLABEL_[x] for x in labels]
     elif slice =="YIELD_CAT":
         color_dict = make_yield_color_dict()
         labels = list(color_dict.keys())[::-1]

@@ -16,7 +16,6 @@ COLORS_ = {
     "UK" : '#999999', 
     "UNKNOWN" : 'black'}
 
-
 FIXEDLABELS_ = {
     "DPRK" : "North Korea", 
     "FR" : "France", 
@@ -53,6 +52,52 @@ TYPECOLORS_ = {
     "UG": "#212529", 
     "UW": '#90E0EF',
     "CR": "#343A40"
+}
+
+PURPOSELABEL_ = {
+"WR" : "weapons related",
+"FS" : "fundamental science",
+"I" : "industrial applications",
+    "I-CV" : "cavity excavation",
+    "I-EM" : "earth-moving",
+    "I-FE" : "extinguishing of oil/gas well fire",
+    "I-OS" : "oil stimulation",
+    "I-SS" : "seismic sounding",
+"JV" : "joint verification",
+"ME" : "military exercise",
+"PR" : "research for peaceful applications",
+"SE" : "safety experiment",
+"ST" : "storage/transportation experiment",
+"VU" : "Vela uniform",
+"WE" : "weapons effects",
+"C" : "combat use, strategic warfare", 
+None : "NONE", 
+"WR/P" : "WR/P"
+} 
+
+TYPESLABEL_ = {
+    "A": "atmospheric",
+    "AH": "high altitude", #"atmospheric (altitude 30-80 km)",
+    "AW": "water surface", # "atmospheric, water surface",
+    "AS": "surface", #"atmospheric, surface",
+    "AX": "space", #(altitude > 80 km)",
+    "UG": "underground", 
+    "UW": "underwater",
+    "CR": "cratering burst", #"cratering burst (shallow subsurface)"
+}
+
+DELIVERY_= {
+        "AD": "airdrop",
+        "B": "balloon",
+        "R": "rocket or missile",
+        "CM": "cruise missile",
+        "BG": "barge",
+        "AS": "anti-submarine weapon or torpedo",
+        "T": "tower/tunnel",
+        "S":  "shaft",
+        "TC":  "cavity in tunnel",
+        "CS": "cavity, shaft",
+        "M": "mine"
 }
 
 def add_breaks(s, f=2):
