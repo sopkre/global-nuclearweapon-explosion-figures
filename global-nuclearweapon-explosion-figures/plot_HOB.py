@@ -36,7 +36,7 @@ def plot_HOB(fig, df):
                     in zip(df_s.STATE, df_s.SHOTNAME, df_s.HOB, df_s.DATETIME)
                 ],
         legend='legend1', 
-        marker = {"color" : helpers.COLORS_[s]}, 
+        marker = {"color" : helpers.COLORS_[s], "opacity" : 0.8}, 
         )
 
         fig.add_trace(scatter)
@@ -67,7 +67,7 @@ def main(infilename, outfilename):
     plot_HOB(fig, df)
 
     fig.update_layout(
-        modebar_remove=['lasso'], 
+        modebar_remove=['lasso', 'select'], 
         map_zoom = 0,
         xaxis=dict(
             title=dict(text="Year")),
