@@ -242,10 +242,10 @@ def update_layout(fig):
     legend_dict = {
         'legend1' : {
             'yanchor' : "top",
-            'y' : 1.02,  
+            'y' : 0.08,  
             'xanchor' : "left",
             'x' : 0.0, 
-            'font' : {'size' : 15},
+            'font' : {'size' : 14},
             'orientation' : 'h',
             'borderwidth' : 1,
             'itemsizing' : 'constant',
@@ -310,8 +310,8 @@ def add_buttons(fig, mode_label_dict):
             type="buttons",
             direction="right",
             active=0,
-            x=0.01,
-            y=0.11,
+            x=0.00,
+            y=0.92,
             xanchor='left', 
             yanchor='bottom', 
             buttons=buttons,
