@@ -8,7 +8,6 @@ usage: plot_pies.py [-h] -i INFILENAME -o OUTFILENAME
 """
 
 import argparse
-import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
