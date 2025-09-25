@@ -29,6 +29,43 @@ FIXEDLABELS_ = {
     "USSR" : "USSR/Russia",
     }
 
+## Pastel 
+['rgb(102, 197, 204)', 'rgb(246, 207, 113)', 'rgb(248, 156, 116)', 'rgb(220, 176, 242)', 'rgb(135, 197, 95)', 'rgb(158, 185, 243)', 'rgb(254, 136, 177)', 'rgb(201, 219, 116)', 'rgb(139, 224, 164)', 'rgb(180, 151, 231)', 'rgb(179, 179, 179)']
+
+## Pastel 2
+# [, , , ,, , , ]
+
+## Pastel without blue
+# ['rgb(179, 179, 179)']
+
+# blue 
+
+
+REGIONCOLORS_ = {
+    'Northern America' : 'rgb(244,202,228)',
+    'Central Asia' : 'rgb(253,205,172)', 
+    'Northern Africa' : 'rgb(203,213,232)',  
+    'Micronesia' : 'rgb(179,226,205)',
+    'Eastern Europe' :  'rgb(230,245,201)',
+    'Eastern Asia' : 'rgb(255,242,174)',  
+    'Southern Asia' : 'rgb(241,226,204)',  
+    'Australia and New Zealand' : 'rgb(204,204,204)',    
+    'South Atlantic Ocean' : '#CAF0F8',
+    'Arctic Ocean' : '#0077B6',
+    'North Pacific Ocean' : '#00B4D8',
+    'Indian Ocean' : '#90E0EF',
+}
+
+TYPECOLORS_ = {
+    "A": "#ADB5BD",
+    "AH": "#CED4DA",
+    "AW": "#C2DFE3",
+    "AS": "#6C757D",
+    "AX": "#E9ECEF",
+    "UG": "#212529", 
+    "UW": '#90E0EF',
+    "CR": "#343A40"
+}
 
 def add_breaks(s, f=2):
     """     
