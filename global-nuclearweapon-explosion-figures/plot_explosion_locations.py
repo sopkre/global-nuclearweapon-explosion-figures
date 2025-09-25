@@ -93,7 +93,7 @@ def draw_density(fig, df):
         hoverinfo='skip', 
         showscale=False,
         showlegend=True,
-        name="test <br> density",
+        name="large number <br>of explosions",
         legend='legend2',
         colorscale=[[0, 'white'], [1, '#ffff00']]
     )
