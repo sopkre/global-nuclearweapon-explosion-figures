@@ -24,7 +24,7 @@ FIXEDLABELS_ = {
     "PAK" : "Pakistan",
     "PRC" : "China",
     "UK" : "UK",
-    "UNKNOWN" : "Unknown",
+    "UNKNOWN" : "Unknown*",
     "US" : "USA",
     "USSR" : "USSR/Russia",
     }
