@@ -29,18 +29,6 @@ FIXEDLABELS_ = {
     "USSR" : "USSR/Russia",
     }
 
-## Pastel 
-['rgb(102, 197, 204)', 'rgb(246, 207, 113)', 'rgb(248, 156, 116)', 'rgb(220, 176, 242)', 'rgb(135, 197, 95)', 'rgb(158, 185, 243)', 'rgb(254, 136, 177)', 'rgb(201, 219, 116)', 'rgb(139, 224, 164)', 'rgb(180, 151, 231)', 'rgb(179, 179, 179)']
-
-## Pastel 2
-# [, , , ,, , , ]
-
-## Pastel without blue
-# ['rgb(179, 179, 179)']
-
-# blue 
-
-
 REGIONCOLORS_ = {
     'Northern America' : 'rgb(244,202,228)',
     'Central Asia' : 'rgb(253,205,172)', 
