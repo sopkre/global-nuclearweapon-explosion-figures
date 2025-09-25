@@ -59,10 +59,9 @@ def plot_regions(fig, df, jsonfile):
         jsonfile: str
             json file to create list of states that belong to region
     """
-    import plotly.express as px
-    colors = px.colors.qualitative.Pastel2
+
     for i, region in enumerate([x for x in pd.unique(df["REGION"]) if x.find("Ocean")==-1]):
-        plot_region(fig, region, jsonfile, color = colors[i], bordercolor="gray")
+        plot_region(fig, region, jsonfile, color = "lightgray", bordercolor="gray")
 
 
 def plot_region(fig, region, jsonfile, color="lightblue", bordercolor="black"):
@@ -264,13 +263,13 @@ def update_layout(fig):
         geo1 = dict(
             countrywidth = 0,
             resolution = 50, #50?
-            projection=dict(type="equirectangular"), 
-            lataxis_showgrid=True, lonaxis_showgrid=True
+            projection=dict(type="equirectangular")
         ))
 
     fig.update_geos(
         lataxis_range=[-90, 90], lonaxis_range=[-140, 210],
-        projection=dict(type="equirectangular")
+        projection=dict(type="equirectangular"),
+        landcolor="lightgray"
     )
 
     fig.update_layout(
