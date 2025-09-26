@@ -295,7 +295,10 @@ def get_delivery(typestr):
         typestr : str
             TYPE string
     """
-    return get_part_after_hyphen(typestr)
+    d = get_part_after_hyphen(typestr)
+    if type(d) is str:
+        d = d.replace("?", "")
+    return d
 
 def get_explosion_purpose(p):
     """Formats explosion purpose (combine into "other" cat, remove "?")
