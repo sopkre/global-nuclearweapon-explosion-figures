@@ -74,7 +74,9 @@ PURPOSELABEL_ = {
 "WE" : "weapons effects",
 "C" : "combat use, strategic warfare", 
 "WR/PR" : "weapons/peaceful research related",
-None : "n/a"
+None : "n/a",
+"n/a" : "n/a",
+"other" : "other"
 } 
 
 TYPESLABEL_ = {
@@ -102,7 +104,8 @@ DELIVERYLABEL_= {
         "TC":  "cavity in tunnel",
         "CS": "cavity, shaft",
         "M": "mine",
-        None: "n/a"
+        None: "n/a",
+        "n/a" : "n/a"
 }
 
 def add_breaks(s, f=2):
@@ -229,7 +232,7 @@ def get_part_after_hyphen(s):
     if type(s) is str and s.find("-") > -1:
         s = s[s.find("-")+1:]
     else: 
-        s = None
+        s = "n/a"
     return s
 
 YIELD_BINS_ = [0.01, 1, 10, 50, 100, 1000, 10000]
