@@ -102,7 +102,7 @@ DELIVERYLABEL_= {
         "S":  "shaft",
         "S?" : "shaft",
         "TC":  "cavity in tunnel",
-        "CS": "cavity, shaft",
+        "CS": "cavity in shaft",
         "M": "mine",
         None: "n/a",
         "n/a" : "n/a"
