@@ -296,7 +296,6 @@ def add_buttons(fig, mode_label_dict):
     for mode in mode_label_dict:
         traces += [ [f.meta==mode for f in fig.data] ]
         modes += [mode]
-        print(f"[INFO] Added {mode} to legend!")
 
     buttons = []
     for i, t in enumerate(traces):
