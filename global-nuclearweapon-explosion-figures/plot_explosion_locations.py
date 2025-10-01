@@ -132,7 +132,7 @@ def draw_scatter(fig, df, mode="STATE", visible=True):
             below='',
             hovertemplate =
                 '%{text}', text = [
-                    f'''<b>{helpers.FIXEDLABELS_[state]}, N={count} </b> <br> Name(s): {name} <br> Yield(s): {kts} kt <br> Type(s): {expl_type} <br> Delivery: {expl_delivery} <br> Purpose(s): {purpose} <br> {time} ''' 
+                    f'''<b>{helpers.FIXEDLABELS_[state]}, N={count} </b> <br> Name(s): {name} <br> Yield(s): {kts} kt <br> Type(s): {expl_type} <br> Method: {expl_delivery} <br> Purpose(s): {purpose} <br> {time} ''' 
                     for (state, count, name, kts, time, expl_type, expl_delivery, purpose) 
                     in zip(df_s.STATE, df_s.COUNT, df_s.SHOTNAME, df_s.YIELD, df_s.YEAR, df_s.TYPE, df_s.DELIVERY, df_s.PUR)
                 ],
@@ -190,7 +190,7 @@ def main(infilename, outfilename):
     fig.update_layout(
         boxmode = 'group',
         map_style = 'open-street-map', 
-        modebar_remove=['lasso'], 
+        modebar_remove=['lasso', 'select'], 
         map_zoom = 0,
         margin={"r":0,"t":0,"l":0,"b":0},
         height=745, 

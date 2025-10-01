@@ -255,8 +255,8 @@ def update_layout(fig):
 
     layout_dict = dict(
         dragmode=False,
-        modebar_remove=['lasso', 'zoom', 'zoom in', "box select", "pan"], 
-        margin={"r":0,"t":16*3,"l":0,"b":0, "autoexpand": False},
+        modebar_remove=['lasso', 'zoom', 'zoom in', 'select', 'pan'], 
+        margin={"r":0,"t":0,"l":0,"b":0, "autoexpand": False},
         height=600, 
         width=16*55, # 16/em; 55em = fit for website
         map_zoom = 0,

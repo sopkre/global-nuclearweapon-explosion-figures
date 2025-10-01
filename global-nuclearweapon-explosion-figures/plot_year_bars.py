@@ -66,7 +66,7 @@ def set_layout(fig):
             figure to apply layout to
     """
     fig.update_layout(
-        modebar_remove=['lasso'], 
+        modebar_remove=['lasso', 'select'], 
         barmode='stack',
         xaxis1=dict(
             title=dict(text="Year")),
