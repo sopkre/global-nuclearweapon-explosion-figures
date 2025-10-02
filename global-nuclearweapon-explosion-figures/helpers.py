@@ -108,6 +108,24 @@ DELIVERYLABEL_= {
         "n/a" : "n/a"
 }
 
+DELIVERYCOLOR_= {
+        "AD": "#3283FE", #blue  
+        "B": "#325A9B",
+        "R": "#FE00FA", #red
+        "CM": "#F6222E",
+        "AS": "#1C8356", # green
+        "BG": "#90AD1C",
+        "T": "#85660D", # black/dark brown/brown
+        "T?": "#85660D",
+        "S":  "#565656",
+        "S?" : "#565656",
+        "TC":  "#C4451C",
+        "CS": "brown",
+        "M": "black",
+        None: "#E2E2E2",
+        "n/a" : "#E2E2E2"
+}
+
 def add_breaks(s, f=2):
     """     
     Helper function to add line breaks (<br>) to long strings. 

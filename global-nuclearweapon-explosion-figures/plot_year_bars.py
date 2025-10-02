@@ -180,7 +180,7 @@ def main(infilename, outfilename):
     # Method #
     #---------
     for i, r in enumerate( sorted(df.DELIVERY.unique())):
-        t = make_year_histogram(df, category="DELIVERY", value=r, visible=False, name=helpers.DELIVERYLABEL_[r], color=px.colors.qualitative.Alphabet[i])
+        t = make_year_histogram(df, category="DELIVERY", value=r, visible=False, name=helpers.DELIVERYLABEL_[r], color=helpers.DELIVERYCOLOR_[r])
         fig.add_trace(t) 
     
     add_buttons(fig, 
