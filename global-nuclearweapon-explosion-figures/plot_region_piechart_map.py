@@ -358,8 +358,8 @@ def main(infilename, outfilename, country_region_json):
 
     add_buttons(fig, 
         {"number": "Number of explosions", 
-        "yield": "Cummulative yield", 
-        "yield_A" : "Cummulative yield (only atmospheric)", 
+        "yield": "Cumulative yield", 
+        "yield_A" : "Cumulative yield (only atmospheric)", 
         # "yield_UG" : "Yield underground/-water"
         }
     )
