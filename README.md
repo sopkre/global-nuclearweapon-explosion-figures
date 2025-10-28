@@ -1,5 +1,5 @@
 # global-nuclearweapon-explosion-figures
-Snippets to make interactive figures using data on global nuclear weapon explosions, e.g. maps. 
+Snippets to make interactive figures using data on global nuclear weapon explosions, e.g. maps. Code used to create plots in [blog post](https://sopkre.github.io/blog/nuclear-weapon-explosions/). 
 
 ## Input data 
 A compatible pandas dataframe (in pickled format) could be taken from [here](https://github.com/sopkre/johnstonsarchive-nucleartest-reader/tree/main/obtained_data).
